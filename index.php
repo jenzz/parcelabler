@@ -33,7 +33,21 @@ function __autoload( $class ) {
   }
 }
 
-$file = '';
+// Example placeholder code
+$file = <<<EOT
+public class Photo {
+    /**
+     * Caption for the photo
+     */
+    public String caption;
+    public int commentCount;
+    public long photoId;
+    public boolean isDefault;
+    public Bundle metadata;
+    public CommentHandler commentHandler;
+}
+EOT;
+
 if ( isset( $_POST['file'] ) )
 {
   $file = trim( $_POST['file'] );
