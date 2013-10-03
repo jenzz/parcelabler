@@ -193,10 +193,15 @@ class CodeBuilder {
    * @param selectedFields array
    */
   public function getOutput( $selectedFields = array(), $methodName = '') {
-    // Start with the original code
-    $code = trim( $this->mInput );
+    // Split the original code on the opening curly-brace for the class
+    $splitCode = explode( '{', $this->mInput, 2 );
+
+    // Add Parcelable interface to class declaration
+    $hasImplements = strpos($splitCode[0], "implements") !== false;
+    $code = trim( $splitCode[0] ) . ( $hasImplements ? "," : " implements" ) . " Parcelable {" . $splitCode[1];
+
     // Remove the last curly-brace to allow for the new code
-    $code = rtrim( $this->mInput, '}' );
+    $code = rtrim( $code, '}' );
 
     $code .= "\n    protected " . $this->mClass . "(Parcel in) {\n";
 
