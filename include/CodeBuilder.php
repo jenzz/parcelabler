@@ -192,7 +192,7 @@ class CodeBuilder {
   /**
    * @param selectedFields array
    */
-  public function getOutput( $selectedFields = array() ) {
+  public function getOutput( $selectedFields = array(), $methodName = '') {
     // Start with the original code
     $code = trim( $this->mInput );
     // Remove the last curly-brace to allow for the new code
@@ -218,8 +218,10 @@ class CodeBuilder {
       }
     }
 
-    if ( count( $reads ) > 0 ) {
+    if ( count( $reads ) > 0 && count( $methodName ) == 0 ) {
       $code .= implode( "\n", $reads );
+    } else {
+      $code .= "        " . $methodName . "(in);";
     }
 
     $code .= "
@@ -239,8 +241,17 @@ class CodeBuilder {
     }
 
     $code .= "
+    }";
+
+    if( count( $methodName ) > 0 ) {
+        $code .= "\n
+    private void " . $methodName . "(Parcel in) {\n";
+        $code .= implode( "\n", $reads );
+        $code .= "
+    }";
     }
 
+    $code .= "\n
     public static final Parcelable.Creator<" . $this->mClass . "> CREATOR = new Parcelable.Creator<" . $this->mClass . ">() {
 
         @Override

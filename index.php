@@ -68,7 +68,8 @@ $postedFields = isset( $_POST['fields'] ) ? explode( ',', $_POST['fields'] ) : a
   <div class="container">
   <div class="content">
     <h1>parcelabler</h1>
-    <em>by <a href="http://dallasgutauckis.com">Dallas Gutauckis</a></em>
+    <em>by <a href="http://dallasgutauckis.com">Dallas Gutauckis</a></em><br />
+    <em>forked @ <a href="http://github.com/jenzz/parcelabler">jenzz/parcelabler</a></em>
     <h6>for Android Parcelable implementations</h6>
 
     <form method="POST">
@@ -112,6 +113,17 @@ if ( $file && $codeBuilder->getClass() ) {
 }
 
 echo '</ul>';
+?>
+
+<h3>Config</h3>
+
+<?php
+$method = $_POST['config']['method'];
+$methodName = $_POST['config']['method_name'];
+echo '<input type="checkbox" id="chbMethod" name="config[method]" ' . ( isset($method) ? 'checked="checked"' : '' ) . '/> Separate method for reading Parcel
+<br />';
+echo '<input type="text" id="txtMethod" name="config[method_name]" value="' . ( isset($methodName) ? $methodName : 'readFromParcel' ) . '" ' . ( isset($method) ? '' : 'disabled ' ) . '/>
+<br />';
 
 $unrecognizedFields = $codeBuilder->getUnrecognizedFields();
 if ($file && $codeBuilder->getClass() && !empty($unrecognizedFields)) {
@@ -179,7 +191,7 @@ if ( isset( $_POST['submit'] ) && ! $codeBuilder->getClass() ) {
   $selectedFields = $_POST['field'];
 
   if ( count( $selectedFields ) > 0 ) {
-    $code = htmlentities( $codeBuilder->getOutput( $selectedFields ) );
+    $code = htmlentities( $codeBuilder->getOutput( $selectedFields, $methodName ) );
 
     echo '<h3>Output</h3><div class="alert-message success"><strong>Great news!</strong> Your code was parsed, you had fields for parceling, and the implementation for Parcelable is below.</div><p>Add the <a href="http://developer.android.com/reference/android/os/Parcelable.html">Parcelable</a> class to yours and add the following methods.</p><pre>' . $code . '</pre>';
   } else {
@@ -201,6 +213,11 @@ if ( isset( $_POST['submit'] ) && ! $codeBuilder->getClass() ) {
      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
    })();
+
+   $('#chbMethod').change(function() {
+      var isChecked = $(this).is(':checked');
+      $('#txtMethod').prop('disabled', !isChecked);
+   });
 
   </script>
 </body>
