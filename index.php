@@ -56,9 +56,11 @@ if ( isset( $_POST['file'] ) )
 $postedFields = isset( $_POST['fields'] ) ? explode( ',', $_POST['fields'] ) : array();
 
 ?>
+<!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="stylesheets/bootstrap.min.css" type="text/css" charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="stylesheets/bootstrap.min.css" type="text/css" />
   <script type="text/javascript" src="javascripts/jquery.js"></script>
   <script type="text/javascript" src="javascripts/jquery-ui.js"></script>
   <title>parcelabler</title>
@@ -73,11 +75,10 @@ $postedFields = isset( $_POST['fields'] ) ? explode( ',', $_POST['fields'] ) : a
     <h6>for Android Parcelable implementations</h6>
 
     <form method="POST">
-      <fieldset>
         <div class="row">
           <div class="span10">
-            <h3>Code</h2>
-            <textarea name="file" rows="20" class="span10"><?php echo htmlentities( $file ); ?></textarea>
+            <h3>Code</h3>
+            <textarea name="file" cols="20" rows="20" class="span10"><?php echo htmlentities( $file ); ?></textarea>
             <span class="help-block">Paste your full class definition into the box above to get the Parcelable implementation and options for removing fields for parceling. Don't worry, we don't save your code. A small example is available at <a href="http://dallasgutauckis.com/2012/01/20/parcelabler-for-implementing-androids-parcelable-interface/">this blog post about parcelabler</a>.</span>
           </div>
           <div class="span6">
@@ -102,7 +103,7 @@ if ( $file && $codeBuilder->getClass() ) {
 
       echo '<li>'
        . '<label>'
-       . '<input type="checkbox" ' . ( $isChecked ? 'checked="checked"' : '' ) . 'name="field[' . $fieldName . ']" />'
+       . '<input type="checkbox" ' . ( $isChecked ? 'checked="checked"' : '' ) . ' name="field[' . $fieldName . ']" />'
        . '<span>' . $fieldName . '</span></label></li>';
 
       $_POST['field'][$fieldName] = $isChecked;
@@ -179,7 +180,6 @@ if ($file && $codeBuilder->getClass()) {
 echo '<input type="hidden" name="fields" value="' . implode( ',', array_keys( $codeBuilder->getFields() ) ) . '" />
 </div>
 </div>
-</fieldset>
 <div class="actions">
   <input type="submit" name="submit" class="btn primary" value="Build" />
 </div>
