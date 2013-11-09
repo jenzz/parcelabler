@@ -2,7 +2,7 @@
 
 A tool for generating Android [Parcelable](http://developer.android.com/reference/android/os/Parcelable.html) implementations.
 
-Live Demo: http://parcelabler.jensdriller.com
+Live Demo: http://code.jensdriller.com/parcelabler
 
 The original interface and live version can be used at http://devk.it/proj/parcelabler/.
 
